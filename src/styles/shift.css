@@ -1,0 +1,139 @@
+/* Schedule - Employee Working Rosters*/
+.s2 {
+    position: relative;
+    padding: 0;
+    margin: 2px;
+    color: #fff;
+    align-content: center;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 12px;
+    min-width: 100px;
+    font-weight: 700;
+    cursor: pointer;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+  }
+  .s2.sfd {
+    margin: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  .s2.sp {
+    opacity: 0.4;
+  }
+  .s2 .wrv {
+    border-left: 20px solid #E25856;
+    border-bottom: 20px solid transparent;
+    position: absolute;
+    z-index: 2;
+  }
+  .s2 .sot {
+    width: 3px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #000;
+    position: absolute;
+  }
+  .s2 .c {
+    position: relative;
+    height: 100%;
+  }
+  .s2 .c .dark {
+    color: #555;
+  }
+  .s2 .c .light {
+    color: #fff;
+  }
+  .s2 .c .si {
+    position: absolute;
+    left: 0;
+    margin-left: 5px;
+  }
+  .s2 .c .sw {
+    position: relative;
+    background-color: #adadad;
+  }
+  .s2 .c .sw .so {
+    min-height: 15px;
+    background-color: rgba(255, 255, 255, 0.65);
+  }
+  .s2 .c .sw .so .stcb {
+    position: relative;
+    height: 3px;
+  }
+  .s2 .c .sw .so .stcb.ps {
+    width: 50%;
+  }
+  .s2 .c .sw .so .stcb.pe {
+    left: 50%;
+    width: 50%;
+  }
+  .s2 .c .sw .sd {
+    min-height: 12px;
+    padding: 1px 4px;
+  }
+  .s2 .c .sw .sd > span:nth-of-type(2) {
+    margin-left: 10px;
+  }
+  .s2 .c .sl {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+  }
+  .s2 .c .sl .lo {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.75);
+  }
+  .s2 .c .sl .ld {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 -4px;
+    padding: 1px 4px;
+    z-index: 4;
+    opacity: 1;
+  }
+  .s2.sm,
+  .s2.md {
+    min-width: 50px;
+  }
+  .s2.sm .wrv,
+  .s2.md .wrv {
+    border-left: 15px solid #E25856;
+    border-bottom: 15px solid transparent;
+  }
+  .s2.sm .sl .ld,
+  .s2.xs .sl .ld {
+    height: auto;
+    top: 0;
+  }
+  .s2.xs {
+    min-width: 15px;
+  }
+  .s2.xs .wrv {
+    border-left: 15px solid #E25856;
+    border-bottom: 15px solid transparent;
+  }
+  .s2 .s2i {
+    display: flex;
+    justify-content: center;
+  }
+  .s2 .s2i img {
+    width: 12px;
+    height: 12px;
+  }

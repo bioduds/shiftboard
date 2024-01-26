@@ -1,0 +1,19 @@
+body {
+  font-size: .875rem;
+}
+
+.table-no-padding td, .table-no-padding th {
+  padding: 0 !important;
+}
+
+[role="main"] {
+  /* Space for fixed navbar */
+  padding-top: 133px;
+}
+
+@media (min-width: 768px) {
+  [role="main"] {
+    /* Space for fixed navbar */
+    padding-top: 48px;
+  }
+}
