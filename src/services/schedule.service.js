@@ -6,6 +6,10 @@ function ScheduleService(employeeRepository, shiftPatternRepository, shiftReposi
     _self.shiftRepository = shiftRepository;
     _self.employeeCount = employeeCount;
 
+    _self.getCurrentShifts = async function () {
+        return _self.shiftRepository.getShifts();
+    }
+
     _self.getEmployeeSchedules = async function (startDate, endDate) {
         var filteredEmployeeSchedules = [];
         var employeeSchedules = await _fetchEmployeeSchedules();

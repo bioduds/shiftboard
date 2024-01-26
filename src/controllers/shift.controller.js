@@ -22,8 +22,8 @@ function ShiftController(scheduleService, scheduleGraph, onScheduleChange) {
 
     _self.selectedShiftElement = {};
     _self.scheduleService = scheduleService;
-    _self.scheduleGraph = scheduleGraph; // Receive the scheduleGraph instance
     _self.onScheduleChange = onScheduleChange;
+    _self.scheduleGraph = scheduleGraph;
 
     _self.select = async function (event) {
         var shiftElement = event.currentTarget;
@@ -70,20 +70,6 @@ function ShiftController(scheduleService, scheduleGraph, onScheduleChange) {
     _self.applyChanges = async function () {
         var shiftId = parseInt(_self.selectedShiftElement.dataset.employeeShiftId);
 
-        try {
-            // Check consecutive shifts before making updates
-            if (_self.scheduleGraph.isConsecutiveShifts(shiftId)) {
-                await _self.scheduleService.updateEmployeeShift(shiftId, updatedShift);
-                await _self.onScheduleChange();
-                _self.deselect();
-            } else {
-                // Handle case where shifts are not consecutive
-                console.error("Shifts are not consecutive");
-            }
-        } catch (error) {
-            console.log(error);
-        }
-
         var positionSelect = document.getElementById("position-select");
         var locationSelect = document.getElementById("location-select");
         var shiftSelect = document.getElementById("shift-select");
@@ -94,13 +80,51 @@ function ShiftController(scheduleService, scheduleGraph, onScheduleChange) {
             shiftCode: shiftSelect.options[shiftSelect.selectedIndex].value
         };
 
-        try {
-            await _self.scheduleService.updateEmployeeShift(shiftId, updatedShift);
-            await _self.onScheduleChange();
-            _self.deselect();
-        }
-        catch (error) {
-            console.log(error);
+        console.log( "Hang on. I have shiftId: " + shiftId + " and updatedShift: " + updatedShift );
+
+        let meGetTheShifts = await _self.scheduleService.getCurrentShifts();
+
+        // console.log("Crazy bird sees: ");
+        // console.log(meGetTheShifts);
+
+        // let's try to access scheduleGraph's repositories
+
+        let scheduleGraphShiftRepo = _self.scheduleGraph.shiftRepository;
+
+        console.log( "Checking scheduleGraph shiftRepo: " );
+        console.log(scheduleGraphShiftRepo);
+
+        // now we will pass the shiftId and change
+        let previousValue = await _self.scheduleGraph.updateShiftProperty(shiftId, "shiftCode", updatedShift.shiftCode);
+
+        console.log( "Checking Previous Value: " + previousValue );
+
+        // now we must test if the graph has any edge with edge greater than 5. If yes, we must prevent this applyChanges from happening and alert. Then revert anything that must be reversed
+        let meCheck = await _self.scheduleGraph.hasEdgesWithWeightGreaterThan(5);
+
+        console.log( "Has Edges with weight greater? " + meCheck );
+
+        if( meCheck ) {
+            alert("You are going to be fatigued this way. Sorry!");
+
+            // revert graph to previousValue
+            await _self.scheduleGraph.updateShiftProperty(shiftId, "shiftCode", previousValue);
+        } else {
+            try {
+                await _self.scheduleService.updateEmployeeShift(shiftId, updatedShift);
+    
+                await _self.onScheduleChange();
+    
+                // console.log( meDoIt );
+                // console.log( updatedShift );
+    
+                await _self.onScheduleChange();
+                _self.deselect();
+            }
+            catch (error) {
+                console.log(error);
+            }
+    
         }
     }
 

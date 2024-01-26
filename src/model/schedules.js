@@ -3,9 +3,19 @@ class ScheduleGraph {
         this.employees = {};
         this.shifts = {};
         this.edges = [];
+        this.employeeRepository = employeeRepository;
+        this.shiftRepository = shiftRepository;
+        this.buildGraph();
+    }
+
+    buildGraph() {
+
+        this.employees = {};
+        this.shifts = {};
+        this.edges = [];
 
         // Load employees as nodes into graph
-        for (const employee of employeeRepository) {
+        for (const employee of this.employeeRepository) {
             this.employees[employee.employeeId] = {
                 id: `employee_${employee.employeeId}`,
                 employeeId: employee.employeeId,
@@ -18,21 +28,22 @@ class ScheduleGraph {
         }
 
         // Create shift nodes
-        this.createShiftNodes(shiftRepository);
+        this.createShiftNodes();
 
         // Add edges between employees and shifts
-        this.addEdges(shiftRepository);
+        this.addEdges();
 
         // Calculate weights
         this.calculateWeights(); // implement this
 
         // let's try some visuals
         this.printGraph( false );
+
     }
 
     // New method to create shift nodes
-    createShiftNodes(shiftRepository) {
-        const uniqueShiftDates = [...new Set(shiftRepository.map(shift => shift.shiftDate))];
+    createShiftNodes() {
+        const uniqueShiftDates = [...new Set(this.shiftRepository.map(shift => shift.shiftDate))];
 
         for (const shiftDate of uniqueShiftDates) {
             const shiftNode = {
@@ -48,8 +59,8 @@ class ScheduleGraph {
     }
 
     // New method to add edges between employees and shifts
-    addEdges(shiftRepository) {
-        for (const shift of shiftRepository) {
+    addEdges() {
+        for (const shift of this.shiftRepository) {
             const employeeId = shift.employeeId;
             const shiftNode = this.shifts[`shift_${shift.shiftDate}`];
 
@@ -87,7 +98,28 @@ class ScheduleGraph {
                 }
             }
         }
-    }    
+    }
+
+    // New method to update a property of a shift in shiftRepository using shiftId
+    updateShiftProperty(shiftId, property, value) {
+        const shiftToUpdate = this.shiftRepository.find(shift => shift.id === shiftId);
+
+        if (shiftToUpdate) {
+            let previousValue = shiftToUpdate[property];
+            shiftToUpdate[property] = value;
+            // You might want to rebuild the graph after updating the shift
+            this.buildGraph();
+            return previousValue;
+        } else {
+            console.error(`Shift with ID ${shiftId} not found.`);
+        }
+    }
+
+    // New method to check if the graph has any edge with weight greater than a specified value (default: 5)
+    hasEdgesWithWeightGreaterThan(value = 5) {
+        return this.edges.some(edge => edge.weight > value);
+    }
+
     printGraph( visuals ) {
         console.log("Employees:");
         console.log(this.employees);

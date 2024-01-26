@@ -74,7 +74,7 @@
             var shiftRepository = new ShiftRepository();
 
             var scheduleGraph = new ScheduleGraph(employeeRepository.employeesCache, shiftRepository.shiftsCache);
-            var scheduleService = new ScheduleService(employeeRepository, shiftPatternRepository, shiftRepository, 100);
+            var scheduleService = new ScheduleService(employeeRepository, shiftPatternRepository, shiftRepository, 10);
             var shiftController = new ShiftController(scheduleService, scheduleGraph, loadSchedules);
             var scheduleController = new ScheduleController(scheduleService);
 
