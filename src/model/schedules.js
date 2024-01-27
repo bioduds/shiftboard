@@ -49,9 +49,7 @@ class ScheduleGraph {
             const shiftNode = {
                 id: `shift_${shiftDate}`, // Unique identifier for shift nodes based on date
                 shiftDate: shiftDate,
-                label: "Shift Date" // Label for shift nodes, modify as needed
-                // Add other shift properties as needed
-            };
+                label: "Shift Date" // Label for shift nodes
 
             // Add shift node to the graph
             this.shifts[shiftNode.id] = shiftNode;

@@ -71,14 +71,14 @@
             var shiftRepository = new ShiftRepository();
 
             var scheduleGraph = new ScheduleGraph(employeeRepository.employeesCache, shiftRepository.shiftsCache);
-            var scheduleService = new ScheduleService(employeeRepository, shiftPatternRepository, shiftRepository, 10);
+            var scheduleService = new ScheduleService(employeeRepository, shiftPatternRepository, shiftRepository, 100);
             var shiftController = new ShiftController(scheduleService, scheduleGraph, loadSchedules);
             var scheduleController = new ScheduleController(scheduleService);
 
 
             async function loadSchedules() {
-                var startDate = moment('2019-10-06');
-                var endDate = moment('2019-10-19');
+                var startDate = moment('2019-10-01');
+                var endDate = moment('2019-10-29');
 
                 var schedule = document.getElementById('employee-schedules');
                 schedule.innerHTML = await scheduleController.getScheduleHtml(startDate, endDate);
