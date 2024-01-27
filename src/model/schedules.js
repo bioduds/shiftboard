@@ -1,20 +1,23 @@
 class ScheduleGraph {
     constructor(employeeRepository, shiftRepository) {
+        // Initialize graph data structures and repositories
         this.employees = {};
         this.shifts = {};
         this.edges = [];
         this.employeeRepository = employeeRepository;
         this.shiftRepository = shiftRepository;
+
+        // Build the graph on instantiation
         this.buildGraph();
     }
 
     buildGraph() {
-
+        // Clear existing data
         this.employees = {};
         this.shifts = {};
         this.edges = [];
 
-        // Load employees as nodes into graph
+        // Load employees as nodes into the graph
         for (const employee of this.employeeRepository) {
             this.employees[employee.employeeId] = {
                 id: `employee_${employee.employeeId}`,
@@ -33,11 +36,8 @@ class ScheduleGraph {
         // Add edges between employees and shifts
         this.addEdges();
 
-        // Calculate weights
-        this.calculateWeights(); // implement this
-
-        // let's try some visuals
-        this.printGraph( false );
+        // Calculate weights for consecutive shifts
+        this.calculateWeights();
 
     }
 
@@ -107,7 +107,7 @@ class ScheduleGraph {
         if (shiftToUpdate) {
             let previousValue = shiftToUpdate[property];
             shiftToUpdate[property] = value;
-            // You might want to rebuild the graph after updating the shift
+            // Rebuild the graph after updating the shift
             this.buildGraph();
             return previousValue;
         } else {
@@ -120,45 +120,4 @@ class ScheduleGraph {
         return this.edges.some(edge => edge.weight > value);
     }
 
-    printGraph( visuals ) {
-        console.log("Employees:");
-        console.log(this.employees);
-    
-        console.log("\nShifts:");
-        console.log(this.shifts);
-    
-        console.log("\nEdges with Weight > 0:");
-    
-        const filteredEdges = this.edges.filter(edge => edge.weight > 0);
-        console.log(filteredEdges);
-    
-        if (visuals) {
-            // Create nodes and edges arrays for vis.js
-            const nodes = Object.values(this.employees).concat(Object.values(this.shifts));
-            const edges = filteredEdges; // Use filtered edges
-    
-            // Create a data object for vis.js
-            const data = {
-                nodes: new vis.DataSet(nodes),
-                edges: new vis.DataSet(edges)
-            };
-    
-            // Create an options object for vis.js
-            const options = {
-                edges: {
-                    arrows: {
-                        to: true
-                    }
-                },
-                layout: {
-                    improvedLayout: false  // Disable improved layout
-                }
-            };
-    
-            // Create a new network using vis.js
-            const container = document.getElementById('visualization');
-            const network = new vis.Network(container, data, options);
-        }
-    }
-    
 }
